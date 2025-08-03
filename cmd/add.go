@@ -4,12 +4,11 @@ Copyright © 2025 NAME HERE <maxime.crespo@protonmail.com>
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"time"
 
+	"github.com/macrespo42/expense-tracker/internal/expenses"
 	"github.com/spf13/cobra"
 )
 
@@ -17,45 +16,6 @@ var (
 	description string
 	amount      float64
 )
-
-type Expense struct {
-	ID          int       `json:"id"`
-	Description string    `json:"description"`
-	Amount      float64   `json:"amount"`
-	Date        time.Time `json:"date"`
-}
-
-func loadExpenses(expenseFile string) ([]Expense, error) {
-	var expenses []Expense
-
-	if _, err := os.Stat(expenseFile); os.IsNotExist(err) {
-		err := os.WriteFile(expenseFile, []byte("[]"), 0644)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	data, err := os.ReadFile(expenseFile)
-	if err != nil {
-		return nil, err
-	}
-
-	err = json.Unmarshal(data, &expenses)
-	if err != nil {
-		return nil, err
-	}
-
-	return expenses, nil
-}
-
-func saveExpenses(expenseFile string, expenses []Expense) error {
-	data, err := json.MarshalIndent(expenses, "", " ")
-	if err != nil {
-		return err
-	}
-
-	return os.WriteFile(expenseFile, data, 0644)
-}
 
 var addCmd = &cobra.Command{
 	Use:   "add",
@@ -67,26 +27,26 @@ var addCmd = &cobra.Command{
 			return
 		}
 
-		expenses, err := loadExpenses("expenses.json")
+		expensesList, err := expenses.LoadExpenses()
 		if err != nil {
 			fmt.Println(err)
 			log.Fatal("Can't load expenses file")
 		}
 
 		id := 0
-		if len(expenses) > 0 {
-			id = expenses[len(expenses)-1].ID + 1
+		if len(expensesList) > 0 {
+			id = expensesList[len(expensesList)-1].ID + 1
 		}
 
-		newExpense := Expense{
+		newExpense := expenses.Expense{
 			ID:          id,
 			Description: description,
 			Amount:      amount,
 			Date:        time.Now(),
 		}
 
-		expenses = append(expenses, newExpense)
-		err = saveExpenses("expenses.json", expenses)
+		expensesList = append(expensesList, newExpense)
+		err = expenses.SaveExpenses(expensesList)
 		if err != nil {
 			log.Fatal("Can't save new expense")
 		}

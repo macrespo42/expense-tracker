@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/macrespo42/expense-tracker/internal/expenses"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +16,7 @@ var listCmd = &cobra.Command{
 	Short: "list all expenses",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		expenses, err := loadExpenses("expenses.json")
+		expenses, err := expenses.LoadExpenses()
 		if err != nil {
 			log.Fatal("Can't load expenses file")
 		}

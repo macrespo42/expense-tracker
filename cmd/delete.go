@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/macrespo42/expense-tracker/internal/expenses"
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +18,7 @@ var deleteCmd = &cobra.Command{
 	Short: "delete an expense",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		expenses, err := loadExpenses("expenses.json")
+		expensesList, err := expenses.LoadExpenses()
 		if err != nil {
 			log.Fatal("Can't load expenses file")
 		}
@@ -26,14 +27,14 @@ var deleteCmd = &cobra.Command{
 			fmt.Println("Please provide the id of the expense you want to delete with --id")
 		}
 
-		var expensesCleared []Expense
-		for _, expense := range expenses {
+		var expensesCleared []expenses.Expense
+		for _, expense := range expensesList {
 			if id != expense.ID {
 				expensesCleared = append(expensesCleared, expense)
 			}
 		}
 
-		err = saveExpenses("expenses.json", expensesCleared)
+		err = expenses.SaveExpenses(expensesCleared)
 		if err != nil {
 			log.Fatal("Failed to remove expense")
 		}
