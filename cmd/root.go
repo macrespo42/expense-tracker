@@ -12,13 +12,32 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "expense-tracker",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: " Simple expense tracker CLI application ",
+	Long: `expense-tracker is a simple CLI who helped you track your expense.
+	Example:
+$ expense-tracker add --description "Lunch" --amount 20
+# Expense added successfully (ID: 1)
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+$ expense-tracker add --description "Dinner" --amount 10
+# Expense added successfully (ID: 2)
+
+$ expense-tracker list
+# ID  Date       Description  Amount
+# 1   2024-08-06  Lunch        $20
+# 2   2024-08-06  Dinner       $10
+
+$ expense-tracker summary
+# Total expenses: $30
+
+$ expense-tracker delete --id 2
+# Expense deleted successfully
+
+$ expense-tracker summary
+# Total expenses: $20
+
+$ expense-tracker summary --month 8
+# Total expenses for August: $20
+`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
