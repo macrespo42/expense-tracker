@@ -2,11 +2,13 @@
  {
   "id": 0,
   "description": "Lunch",
-  "amount": 20
+  "amount": 20,
+  "date": "2025-08-03T19:59:55.637586+02:00"
  },
  {
   "id": 1,
   "description": "Dinner",
-  "amount": 10
+  "amount": 10,
+  "date": "2025-08-03T20:00:01.276493+02:00"
  }
 ]
