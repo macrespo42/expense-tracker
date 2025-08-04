@@ -2,11 +2,11 @@ package expenses
 
 import (
 	"encoding/json"
+	"log"
 	"os"
+	"path"
 	"time"
 )
-
-const expensePath = "./expenses.json"
 
 type Expense struct {
 	ID          int       `json:"id"`
@@ -15,9 +15,17 @@ type Expense struct {
 	Date        time.Time `json:"date"`
 }
 
+func getExpensePath() string {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal("Can't retrieve home dire")
+	}
+	return path.Join(homeDir, "expenses.json")
+}
+
 func LoadExpenses() ([]Expense, error) {
 	var expenses []Expense
-
+	expensePath := getExpensePath()
 	if _, err := os.Stat(expensePath); os.IsNotExist(err) {
 		err := os.WriteFile(expensePath, []byte("[]"), 0644)
 		if err != nil {
@@ -44,5 +52,5 @@ func SaveExpenses(expenses []Expense) error {
 		return err
 	}
 
-	return os.WriteFile(expensePath, data, 0644)
+	return os.WriteFile(getExpensePath(), data, 0644)
 }
