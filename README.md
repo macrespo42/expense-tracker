@@ -1,39 +1,56 @@
-# Project expense-tracker
+# Expense-tracker
 
-One Paragraph of project description goes here
+Expense tracker as a CLI
 
-## Getting Started
+## Requirements
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+go installed
 
-## MakeFile
+## installation
 
-Run build make command with tests
+To install or run locally, clone the repo and make the script executable:
+
 ```bash
-make all
+git clone https://github.com/macrespo42/expense-tracker
+cd expense-tracker
+go run . <command> <arguments>
+
 ```
 
-Build the application
+or to installed it globally
+
 ```bash
-make build
+go install https://github.com/macrespo42/expense-tracker@latest
+# if $GOPATH isn't in your .zshrc/.bashrc
+export PATH=$PATH:$(go env GOPATH)/bin > ~/.zshrc
+source ~/.zshrc
+# Then run the program from anywhere
+expense-tracker <command> <arguments>
 ```
 
-Run the application
-```bash
-make run
-```
+## Commands
 
-Live reload the application:
 ```bash
-make watch
-```
+$ expense-tracker add --description "Lunch" --amount 20
+# Expense added successfully (ID: 1)
 
-Run the test suite:
-```bash
-make test
-```
+$ expense-tracker add --description "Dinner" --amount 10
+# Expense added successfully (ID: 2)
 
-Clean up binary from the last build:
-```bash
-make clean
+$ expense-tracker list
+# ID  Date       Description  Amount
+# 1   2024-08-06  Lunch        $20
+# 2   2024-08-06  Dinner       $10
+
+$ expense-tracker summary
+# Total expenses: $30
+
+$ expense-tracker delete --id 2
+# Expense deleted successfully
+
+$ expense-tracker summary
+# Total expenses: $20
+
+$ expense-tracker summary --month 8
+# Total expenses for August: $20
 ```
