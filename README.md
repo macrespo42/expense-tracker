@@ -1,4 +1,4 @@
-# (https://roadmap.sh/projects/expense-tracker)[Expense-tracker]
+# (Expense-tracker)[https://roadmap.sh/projects/expense-tracker]
 
 Expense tracker as a CLI
 
